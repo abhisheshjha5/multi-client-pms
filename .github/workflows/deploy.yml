@@ -32,13 +32,16 @@ jobs:
 
       - name: Prepare Docs Folder
         run: |
+          rm -rf docs
           mkdir -p docs/client1 docs/client2 docs/client3
           cp -r dist/client1/* docs/client1/
           cp -r dist/client2/* docs/client2/
           cp -r dist/client3/* docs/client3/
 
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          branch: gh-pages
-          folder: docs
+      - name: Commit docs folder
+        run: |
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
+          git add docs
+          git commit -m "Update docs folder" || echo "No changes to commit"
+          git push
