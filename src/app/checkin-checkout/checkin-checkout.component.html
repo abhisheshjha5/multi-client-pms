@@ -1,0 +1,31 @@
+<div class="container mt-4">
+  <h3 class="text-center">🧾 Today’s Check-ins & Check-outs ({{ today }})</h3>
+
+  <div class="row mt-4">
+    <!-- Check-ins -->
+    <div class="col-md-6">
+      <div class="card border-success">
+        <div class="card-header bg-success text-white">Check-ins</div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item" *ngFor="let guest of checkIns">
+            <strong>{{ guest.name }}</strong> (Room {{ guest.room }}) – {{ guest.time }}
+            <button class="btn btn-outline-success btn-sm float-end" (click)="onAction('checkin', guest)">Check-in</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Check-outs -->
+    <div class="col-md-6">
+      <div class="card border-danger">
+        <div class="card-header bg-danger text-white">Check-outs</div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item" *ngFor="let guest of checkOuts">
+            <strong>{{ guest.name }}</strong> (Room {{ guest.room }}) – {{ guest.time }}
+            <button class="btn btn-outline-danger btn-sm float-end" (click)="onAction('checkout', guest)">Check-out</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

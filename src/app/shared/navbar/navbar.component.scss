@@ -1,0 +1,10 @@
+.navbar-brand img {
+  max-height: 40px;
+  max-width: 40px;
+  object-fit: contain;
+}
+
+/* Avoid empty file errors */
+.navbar {
+  background-color: transparent;
+}

@@ -1,0 +1,37 @@
+.footer {
+  h5 {
+    color: #f8f9fa;
+    font-weight: bold;
+  }
+
+  .footer-link {
+    color: #adb5bd;
+    text-decoration: none;
+
+    &:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+  }
+
+  input[type="email"] {
+    border-radius: 5px;
+    padding: 5px 10px;
+  }
+
+  button {
+    transition: all 0.3s ease-in-out;
+    &:hover {
+      background-color: #0dcaf0;
+      color: #000;
+    }
+  }
+
+  .social-icons i {
+    font-size: 1.2rem;
+    transition: color 0.3s;
+    &:hover {
+      color: #0dcaf0;
+    }
+  }
+}

@@ -1,0 +1,137 @@
+<div class="container mt-4">
+  <h2 class="mb-3">Guest List</h2>
+
+  <div class="row mb-3">
+    <div class="col-md-5">
+      <input class="form-control" placeholder="Search by name or email" [(ngModel)]="searchTerm" />
+    </div>
+    <div class="col-md-3">
+      <select class="form-select" [(ngModel)]="statusFilter">
+        <option value="All">All Statuses</option>
+        <option value="Checked-in">Checked-in</option>
+        <option value="Checked-out">Checked-out</option>
+      </select>
+    </div>
+    <div class="col-md-4 text-end">
+      <button class="btn btn-outline-success me-2" (click)="exportToExcel()">Export Excel</button>
+      <button class="btn btn-outline-danger" (click)="exportToPDF()">Export PDF</button>
+    </div>
+  </div>
+
+  <table class="table table-bordered table-hover">
+    <thead class="table-light">
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Status</th>
+        <th style="width: 160px;">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let guest of paginatedGuests">
+        <td>{{ guest.name }}</td>
+        <td>{{ guest.email }}</td>
+        <td>{{ guest.phone }}</td>
+        <td>
+          <span class="badge"
+            [ngClass]="{
+              'bg-success': guest.status === 'Checked-in',
+              'bg-secondary': guest.status === 'Checked-out'
+            }">{{ guest.status }}</span>
+        </td>
+        <td style="width: 200px;">
+          <button class="btn btn-sm btn-info me-1" (click)="viewGuest(guest)">View</button>
+          <button class="btn btn-sm btn-warning me-1" (click)="editGuest(guest)">Edit</button>
+          <button class="btn btn-sm btn-danger" (click)="deleteGuest(guest)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Pagination -->
+  <nav *ngIf="totalPages() > 1" aria-label="Pagination" class="mt-3">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link" (click)="changePage(currentPage - 1)">Previous</a>
+      </li>
+      <li class="page-item" *ngFor="let page of [].constructor(totalPages()); let i = index"
+          [class.active]="i + 1 === currentPage">
+        <a class="page-link" (click)="changePage(i + 1)">{{ i + 1 }}</a>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages()">
+        <a class="page-link" (click)="changePage(currentPage + 1)">Next</a>
+      </li>
+    </ul>
+  </nav>
+</div>
+
+<!-- View Modal -->
+<div class="modal fade" id="viewGuestModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Guest Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" *ngIf="selectedGuest">
+        <p><strong>Name:</strong> {{ selectedGuest.name }}</p>
+        <p><strong>Email:</strong> {{ selectedGuest.email }}</p>
+        <p><strong>Phone:</strong> {{ selectedGuest.phone }}</p>
+        <p><strong>Status:</strong> {{ selectedGuest.status }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editGuestModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Guest</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+     
+<form #editForm="ngForm" (ngSubmit)="saveEditedGuest(editForm)" *ngIf="editGuestData" novalidate>
+  <div class="modal-body">
+    <div class="mb-3">
+      <label class="form-label">Name</label>
+      <input class="form-control" name="name" required [(ngModel)]="editGuestData.name" />
+      <div *ngIf="editForm.submitted && !editForm.controls.name?.valid" class="text-danger">
+        Name is required.
+      </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Email</label>
+      <input type="email" class="form-control" name="email" required [(ngModel)]="editGuestData.email" />
+      <div *ngIf="editForm.submitted && !editForm.controls.email?.valid" class="text-danger">
+        Valid email is required.
+      </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Phone</label>
+      <input class="form-control" name="phone" required pattern="[0-9]+" [(ngModel)]="editGuestData.phone" />
+      <div *ngIf="editForm.submitted && !editForm.controls.phone?.valid" class="text-danger">
+        Valid phone number is required.
+      </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Status</label>
+      <select class="form-select" name="status" required [(ngModel)]="editGuestData.status">
+        <option value="Checked-in">Checked-in</option>
+        <option value="Checked-out">Checked-out</option>
+      </select>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-success" [disabled]="editForm.invalid">Save</button>
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+  </div>
+</form>
+    </div>
+  </div>
+</div>
+
+
+<div id="toast-container" class="position-fixed top-0 end-0 p-3" style="z-index: 1080"></div>

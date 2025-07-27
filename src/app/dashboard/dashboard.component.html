@@ -1,0 +1,17 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Dashboard</h2>
+
+  <div class="row">
+    <div class="col-md-4" *ngFor="let metric of metrics">
+      <div class="card text-white mb-4" [ngClass]="metric.color">
+        <div class="card-body d-flex align-items-center justify-content-between">
+          <div>
+            <h5 class="card-title">{{ metric.title }}</h5>
+            <h2>{{ metric.value }}</h2>
+          </div>
+          <i class="fas" [ngClass]="metric.icon" style="font-size: 2rem;"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

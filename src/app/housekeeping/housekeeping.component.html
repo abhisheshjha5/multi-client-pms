@@ -1,0 +1,115 @@
+<div class="container mt-4">
+  <h4>🧹 Housekeeping Panel</h4>
+  <div class="form-check mt-2">
+    <input class="form-check-input" type="checkbox" [(ngModel)]="showPendingOnly" id="pendingOnly">
+    <label class="form-check-label" for="pendingOnly">Show Pending Only</label>
+  </div>
+
+  <table class="table table-striped mt-3">
+    <thead>
+      <tr>
+        <th>Room #</th>
+        <th>Status</th>
+        <th>Assigned To</th>
+        <th>Notes</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let room of rooms" [hidden]="showPendingOnly && room.status !== 'Pending'">
+        <td>{{ room.roomNumber }}</td>
+        <td>
+          <span class="badge"
+            [ngClass]="room.status === 'Pending' ? 'bg-warning text-dark' : 'bg-success'">{{ room.status }}</span>
+        </td>
+        <td>{{ room.assignedTo || '-' }}</td>
+        <td>{{ room.notes || '-' }}</td>
+        <td>
+          <button class="btn btn-sm btn-primary" (click)="openAssignModal(room)">Assign</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Assign Modal -->
+<div class="modal fade" id="assignModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content" *ngIf="selectedRoom">
+      <div class="modal-header">
+        <h5 class="modal-title">Assign Staff - Room {{ selectedRoom.roomNumber }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form #assignForm="ngForm" (ngSubmit)="saveAssignment()" novalidate>
+        <div class="modal-body">
+          <div class="mb-2">
+            <label class="form-label">Assign To</label>
+            <select
+              class="form-select"
+              name="assignedTo"
+              [(ngModel)]="selectedRoom.assignedTo"
+              required
+              #assignedTo="ngModel"
+            >
+              <option value="">-- Select Staff --</option>
+              <option *ngFor="let staff of staffList" [value]="staff">{{ staff }}</option>
+            </select>
+            <div class="text-danger" *ngIf="assignedTo.invalid && assignedTo.touched">
+              Staff is required
+            </div>
+          </div>
+
+          <div class="mb-2">
+            <label class="form-label">Notes</label>
+            <textarea
+              class="form-control"
+              [(ngModel)]="selectedRoom.notes"
+              name="notes"
+            ></textarea>
+          </div>
+
+          <div class="mb-2">
+            <label class="form-label">Status</label>
+            <select
+              class="form-select"
+              name="status"
+              [(ngModel)]="selectedRoom.status"
+              required
+              #status="ngModel"
+            >
+              <option value="">-- Select Status --</option>
+              <option value="Pending">Pending</option>
+              <option value="Cleaned">Cleaned</option>
+            </select>
+            <div class="text-danger" *ngIf="status.invalid && status.touched">
+              Status is required
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button
+            class="btn btn-success"
+            type="submit"
+            [disabled]="assignForm.invalid"
+          >
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- Toast -->
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1055;">
+  <div class="toast align-items-center text-white bg-success border-0" *ngIf="showToast" role="alert">
+    <div class="d-flex">
+      <div class="toast-body">{{ toastMsg }}</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" (click)="showToast = false"></button>
+    </div>
+  </div>
+</div>

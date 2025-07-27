@@ -1,0 +1,41 @@
+<nav class="navbar navbar-expand-lg" [style.backgroundColor]="'var(--header-color)'">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center" routerLink="/" *ngIf="branding">
+      <img *ngIf="branding.logoUrl"
+           [src]="branding.logoUrl"
+           alt="Logo"
+           width="40"
+           height="40"
+           class="me-2 rounded shadow-sm" />
+      <span [style.color]="fontColor"
+            [style.fontFamily]="branding.fontFamily">{{ branding.companyName }}</span>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/dashboard" routerLinkActive="active" [style.color]="fontColor">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/reservations" routerLinkActive="active" [style.color]="fontColor">Reservations</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/guests" routerLinkActive="active" [style.color]="fontColor">Guests</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/housekeeping" routerLinkActive="active" [style.color]="fontColor">Housekeeping</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/checkin" routerLinkActive="active" [style.color]="fontColor">Check-In/Out</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/settings" routerLinkActive="active" [style.color]="fontColor">Settings</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

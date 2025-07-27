@@ -1,0 +1,85 @@
+<div class="container mt-4">
+  <h3>Reservations</h3>
+
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <input [(ngModel)]="searchTerm" class="form-control" placeholder="Search guest..." (input)="search()" />
+    </div>
+    <div class="col-md-3">
+      <select [(ngModel)]="filterStatus" class="form-select" (change)="search()">
+        <option>All</option>
+        <option>Confirmed</option>
+        <option>Pending</option>
+        <option>Cancelled</option>
+      </select>
+    </div>
+  </div>
+
+  <table class="table table-bordered table-hover">
+    <thead class="table-light">
+      <tr>
+        <th>Guest</th>
+        <th>Status</th>
+        <th>Check-In</th>
+        <th>Check-Out</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let r of filtered">
+        <td>{{ r.guest }}</td>
+        <td>
+          <span class="badge bg-success" *ngIf="r.status === 'Confirmed'">{{ r.status }}</span>
+          <span class="badge bg-warning text-dark" *ngIf="r.status === 'Pending'">{{ r.status }}</span>
+          <span class="badge bg-danger" *ngIf="r.status === 'Cancelled'">{{ r.status }}</span>
+        </td>
+        <td>{{ r.checkIn }}</td>
+        <td>{{ r.checkOut }}</td>
+        <td>
+          <button class="btn btn-sm btn-info me-1" (click)="openModal(r, 'view')">View</button>
+          <button class="btn btn-sm btn-primary me-1" (click)="openModal(r, 'edit')">Edit</button>
+          <button class="btn btn-sm btn-danger">Cancel</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="reservationModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ mode === 'view' ? 'View Reservation' : 'Edit Reservation' }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body" *ngIf="selectedReservation">
+        <div class="mb-3">
+          <label>Guest</label>
+          <input [readonly]="mode === 'view'" [(ngModel)]="selectedReservation.guest" class="form-control" />
+        </div>
+        <div class="mb-3">
+          <label>Status</label>
+          <select [disabled]="mode === 'view'" [(ngModel)]="selectedReservation.status" class="form-select">
+            <option>Confirmed</option>
+            <option>Pending</option>
+            <option>Cancelled</option>
+          </select>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label>Check-In</label>
+            <input [readonly]="mode === 'view'" [(ngModel)]="selectedReservation.checkIn" class="form-control" />
+          </div>
+          <div class="col">
+            <label>Check-Out</label>
+            <input [readonly]="mode === 'view'" [(ngModel)]="selectedReservation.checkOut" class="form-control" />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" *ngIf="mode === 'edit'">
+        <button class="btn btn-primary" data-bs-dismiss="modal">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
