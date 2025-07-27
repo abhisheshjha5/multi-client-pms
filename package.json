@@ -2,12 +2,15 @@
   "name": "filao-pms",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
-  },
+  "ng": "ng",
+  "start": "ng serve",
+  "build": "ng build",
+  "watch": "ng build --watch --configuration development",
+  "test": "ng test",
+  "build:client1": "ng build --configuration production --output-path=dist/client1 --base-href=/PMS-demo/client1/ --file-replacements src/environments/environment.ts=src/environments/environment.client1.ts",
+  "build:client2": "ng build --configuration production --output-path=dist/client2 --base-href=/PMS-demo/client2/ --file-replacements src/environments/environment.ts=src/environments/environment.client2.ts",
+  "build:client3": "ng build --configuration production --output-path=dist/client3 --base-href=/PMS-demo/client3/ --file-replacements src/environments/environment.ts=src/environments/environment.client3.ts"
+},
   "private": true,
   "dependencies": {
     "@angular/animations": "^14.3.0",
