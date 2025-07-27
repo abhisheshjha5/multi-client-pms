@@ -1,0 +1,44 @@
+name: Build and Deploy Angular PMS (Client1, Client2, Client3)
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Client 1
+        run: npm run build:client1
+
+      - name: Build Client 2
+        run: npm run build:client2
+
+      - name: Build Client 3
+        run: npm run build:client3
+
+      - name: Prepare Docs Folder
+        run: |
+          mkdir -p docs/client1 docs/client2 docs/client3
+          cp -r dist/client1/* docs/client1/
+          cp -r dist/client2/* docs/client2/
+          cp -r dist/client3/* docs/client3/
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: docs
