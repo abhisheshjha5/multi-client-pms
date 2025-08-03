@@ -3,7 +3,7 @@ export const environment = {
   clientId: 'client1',
   appTitle: 'Filao PMS',
   branding: {
-    logo: 'assets/images/logo1.jpg',
+    logo: 'assets/images/client1-logo.jpg',
     themeColor: '#1976d2',
     fontColor: '#ffffff',
     headerColor: '#1976d2',

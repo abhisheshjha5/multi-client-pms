@@ -1,102 +1,36 @@
-/* === Base CSS Variables === */
-:root {
-  --primary-color: #007bff;
-  --secondary-color: #6c757d;
-  --text-color: #212529;
-  --header-color: #ffffff;
-  --nav-link-color: #212529;
-  --footer-bg: #f1f1f1;
-  --footer-text: #333;
-  --theme-color: #1976d2;
-}
-
-/* === Apply Variables === */
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+html {
+  height: 100%;
   margin: 0;
   padding: 0;
-  color: var(--text-color);
-  background-color: #f9f9f9; /* ✅ consistent light background */
-  transition: background-color 0.3s ease;
+  overflow-y: scroll; /* Reserve space for scrollbar */
 }
 
-.navbar, header {
-  background-color: var(--header-color) !important;
-  color: var(--text-color);
-  transition: background-color 0.3s ease;
-}
-
-.nav-link {
-  color: var(--nav-link-color) !important;
-}
-
-button, .btn {
-  background-color: var(--primary-color);
-  color: #fff;
-  border: none;
-  padding: 0.5rem 1rem;
-}
-
-button:hover, .btn:hover {
-  opacity: 0.9;
-}
-
-/* === Themes that affect ONLY header/text/colors === */
-
-/* DARK THEME */
-body.Dark {
-  --primary-color: #17a2b8;
-  --secondary-color: #6c757d;
-  --header-color: #343a40;
-  --text-color: #ffffff;
-  --nav-link-color: #ffffff;
-  --footer-bg: #222;
-  --footer-text: #ccc;
-}
-
-/* OCEAN THEME */
-body.Ocean {
-  --primary-color: #0077b6;
-  --secondary-color: #90e0ef;
-  --header-color: #00b4d8;
-  --text-color: #012a4a;
-  --nav-link-color: #012a4a;
-  --footer-bg: #caf0f8;
-  --footer-text: #012a4a;
-}
-
-/* SUNSET THEME */
-body.Sunset {
-  --primary-color: #ff6f61;
-  --secondary-color: #f4a261;
-  --header-color: #e76f51;
-  --text-color: #fff5e6;
-  --nav-link-color: #fff5e6;
-  --footer-bg: #2a2a2a;
-  --footer-text: #fff5e6;
-}
-
-/* === Footer Styling === */
-footer {
-  background-color: var(--footer-bg);
-  color: var(--footer-text);
-  text-align: center;
-  padding: 1rem;
-  margin-top: auto;
-  font-size: 0.9rem;
-}
-
-/* Make footer stick to bottom if page content is short */
-html, body {
+body {
   height: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll; /* Prevent scrollbar toggle */
 }
 
-#app-root, app-root {
+/* Override Bootstrap modal scrollbar adjustments */
+body.modal-open {
+  padding-right: 0 !important;
+  overflow-y: scroll !important;
+}
+
+/* Also override when Bootstrap adds padding on html */
+html.modal-open {
+  padding-right: 0 !important;
+}
+
+app-root {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-main {
+router-outlet + * {
   flex: 1;
 }

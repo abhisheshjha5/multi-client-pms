@@ -3,7 +3,7 @@ export const environment = {
   clientId: 'client3',
   appTitle: 'GreenStay Properties',
   branding: {
-    logo: 'assets/images/logo3.jpg',
+    logo: 'assets/images/client3-logo.jpg',
     themeColor: '#388e3c',
     fontColor: '#eeeeee',
     headerColor: '#388e3c',

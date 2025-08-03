@@ -14,16 +14,23 @@
       <form
         [formGroup]="newsletterForm"
         (ngSubmit)="subscribe()"
-        class="d-flex align-items-center flex-wrap"
+        class="row g-2 align-items-center w-100 w-md-auto mt-3 mt-md-0"
       >
-        <label for="email" class="me-2">Subscribe:</label>
-        <input
-          type="email"
-          formControlName="email"
-          placeholder="Enter email"
-          class="form-control form-control-sm me-2"
-        />
-        <button class="btn btn-info btn-sm" type="submit">Go</button>
+        <div class="col-auto">
+          <label for="email" class="col-form-label">Subscribe:</label>
+        </div>
+        <div class="col-auto">
+          <input
+            type="email"
+            formControlName="email"
+            placeholder="Enter email"
+            class="form-control form-control-sm sized-input"
+            id="email"
+          />
+        </div>
+        <div class="col-auto">
+          <button class="btn btn-info btn-sm" type="submit">Go</button>
+        </div>
       </form>
     </div>
 

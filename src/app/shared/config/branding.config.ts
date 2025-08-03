@@ -24,7 +24,7 @@ export interface BrandingConfig {
 export const BRANDING_CONFIG: { [client: string]: BrandingConfig } = {
   client1: {
     companyName: 'Filao PMS',
-    logoUrl: 'assets/images/logo1.jpg',
+    logoUrl: 'assets/images/client1-logo.jpg',
     fontColor: '#ffffff',
     headerColor: '#1976d2',
     fontFamily: 'Arial, sans-serif',
@@ -45,7 +45,7 @@ export const BRANDING_CONFIG: { [client: string]: BrandingConfig } = {
   },
   client2: {
     companyName: 'OceanView Rentals',
-    logoUrl: 'assets/images/logo2.jpg',
+    logoUrl: 'assets/images/client2-logo.jpg',
     fontColor: '#f8f8f8',
     headerColor: '#c2185b',
     fontFamily: 'Georgia, serif',
@@ -65,7 +65,7 @@ export const BRANDING_CONFIG: { [client: string]: BrandingConfig } = {
   },
   client3: {
     companyName: 'GreenStay Properties',
-    logoUrl: 'assets/images/logo3.jpg',
+    logoUrl: 'assets/images/client3-logo.jpg',
     fontColor: '#eeeeee',
     headerColor: '#388e3c',
     fontFamily: '"Courier New", monospace',
