@@ -6,13 +6,29 @@ import { BRANDING_CONFIG, BrandingConfig } from '../config/branding.config';
   providedIn: 'root'
 })
 export class BrandingService {
-  private clientKey = 'client1'; // default client, can be dynamic
-  private brandingSubject = new BehaviorSubject<BrandingConfig>(BRANDING_CONFIG[this.clientKey]);
+  private clientKey: string;
+  private brandingSubject: BehaviorSubject<BrandingConfig>;
+  brandingChanged$; // will assign in constructor
 
-  // Expose observable for components to subscribe to
-  brandingChanged$ = this.brandingSubject.asObservable();
+  constructor() {
+    // Extract the client name from the URL
+    const pathSegments = window.location.pathname.split('/').filter(Boolean);
+    // For GitHub Pages with repo name in path: PMS-demo/clientX
+    const possibleClient = pathSegments.length > 1 ? pathSegments[1] : 'client1';
 
-  // Getter to get the current branding synchronously
+    // Fallback to client1 if not found
+    this.clientKey = BRANDING_CONFIG[possibleClient] ? possibleClient : 'client1';
+
+    // Initialize BehaviorSubject
+    this.brandingSubject = new BehaviorSubject<BrandingConfig>(
+      BRANDING_CONFIG[this.clientKey]
+    );
+
+    // Assign observable AFTER subject exists
+    this.brandingChanged$ = this.brandingSubject.asObservable();
+  }
+
+  // Getter for current branding synchronously
   get currentBranding(): BrandingConfig {
     return this.brandingSubject.value;
   }

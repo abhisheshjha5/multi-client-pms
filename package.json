@@ -2,15 +2,12 @@
   "name": "filao-pms",
   "version": "0.0.0",
   "scripts": {
-  "ng": "ng",
-  "start": "ng serve",
-  "build": "ng build",
-  "watch": "ng build --watch --configuration development",
-  "test": "ng test",
-  "build:client1": "ng build --configuration client1",
-  "build:client2": "ng build --configuration client2",
-  "build:client3": "ng build --configuration client3"
+  "build:client1": "ng build --configuration=client1",
+  "build:client2": "ng build --configuration=client2",
+  "build:client3": "ng build --configuration=client3"
 }
+
+
 ,
   "private": true,
   "dependencies": {
