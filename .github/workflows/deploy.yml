@@ -22,6 +22,7 @@ jobs:
         run: npm ci
 
       # Build each client
+      # Build each client
       - name: Build Client 1
         run: npm run build:client1
 
