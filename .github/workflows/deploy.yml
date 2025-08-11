@@ -1,0 +1,74 @@
+name: Deploy Angular PMS to GitHub Pages
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write  # Needed for pushing to the repo
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Build each client
+      - name: Build Client1
+        run: npm run build:client1
+      - name: Build Client2
+        run: npm run build:client2
+      - name: Build Client3
+        run: npm run build:client3
+
+      # Move builds into docs/
+      - name: Prepare docs folder
+        run: |
+          mkdir -p docs
+          mv dist/client1 docs/client1
+          mv dist/client2 docs/client2
+          mv dist/client3 docs/client3
+
+          # Create landing page
+          cat <<EOF > docs/index.html
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="utf-8">
+            <title>PMS Demo</title>
+            <style>
+              body { font-family: Arial, sans-serif; padding: 20px; text-align: center; }
+              h1 { color: #333; }
+              a { display: inline-block; margin: 10px; padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 5px; }
+              a:hover { background: #0056b3; }
+            </style>
+          </head>
+          <body>
+            <h1>PMS Demo</h1>
+            <p>Select a client:</p>
+            <a href="./client1/">Client 1</a>
+            <a href="./client2/">Client 2</a>
+            <a href="./client3/">Client 3</a>
+          </body>
+          </html>
+          EOF
+
+      # Commit and push to master/docs
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs
+          git commit -m "Deploy to GitHub Pages" || echo "No changes to commit"
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} master
