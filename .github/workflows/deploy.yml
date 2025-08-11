@@ -6,7 +6,7 @@ on:
       - master
 
 permissions:
-  contents: write  # 🔹 Needed to push to repo
+  contents: write  # Needed for pushing to the repo
 
 jobs:
   build-and-deploy:
@@ -24,6 +24,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Build each client
       - name: Build Client1
         run: npm run build:client1
       - name: Build Client2
@@ -31,6 +32,7 @@ jobs:
       - name: Build Client3
         run: npm run build:client3
 
+      # Move builds into docs/
       - name: Prepare docs folder
         run: |
           mkdir -p docs
@@ -38,7 +40,32 @@ jobs:
           mv dist/client2 docs/client2
           mv dist/client3 docs/client3
 
-      - name: Commit and push to master/docs
+          # Create landing page
+          cat <<EOF > docs/index.html
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="utf-8">
+            <title>PMS Demo</title>
+            <style>
+              body { font-family: Arial, sans-serif; padding: 20px; text-align: center; }
+              h1 { color: #333; }
+              a { display: inline-block; margin: 10px; padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 5px; }
+              a:hover { background: #0056b3; }
+            </style>
+          </head>
+          <body>
+            <h1>PMS Demo</h1>
+            <p>Select a client:</p>
+            <a href="./client1/">Client 1</a>
+            <a href="./client2/">Client 2</a>
+            <a href="./client3/">Client 3</a>
+          </body>
+          </html>
+          EOF
+
+      # Commit and push to master/docs
+      - name: Commit and push changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
